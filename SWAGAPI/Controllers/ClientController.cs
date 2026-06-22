@@ -21,7 +21,7 @@ namespace SWAGAPI.Controllers
         public async Task<IActionResult> GetClients()
         {
             // Pagination
-            var clients = await context.Clients.Take(20).ToListAsync();
+            var clients = await context.Clients.OrderBy(s => s.clientId).Take(20).ToListAsync();
             return Ok(clients);
         }
 
