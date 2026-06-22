@@ -1,0 +1,6 @@
+@SWAGAPI_HostAddress = http://localhost:5072
+
+GET {{SWAGAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
