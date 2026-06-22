@@ -1,0 +1,62 @@
+﻿Teacher's "intro" Controller version below. I initially wrote my first controller (Client) as such, but then opted to follow a RESTful style.
+Also, no DTOs in this beginner task.
+
+
+[Route("api/[controller]")]
+    [ApiController]
+    public class ClientController : ControllerBase
+    {
+        private readonly AppDbContext context;
+        public ClientController(AppDbContext context)
+        {
+            this.context = context;
+        }
+
+
+        [HttpGet]
+        [Route("GetClient")]
+        public async Task <IEnumerable<Client>> GetClient()
+        {
+            return await context.Clients.ToListAsync();
+        }
+
+
+        [HttpPost]
+        [Route("AddClient")]
+        public async Task<Client> AddClient(Client client)
+        {
+            context.Clients.Add(client);
+            await context.SaveChangesAsync();
+            return client;
+        }
+
+
+        [HttpPut]
+        [Route("UpdateClient/{id}")]
+        public async Task<Client> UpdateClient(Client client, int id)
+        {
+            context.Entry(client).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+            return client;
+        }
+
+
+        [HttpDelete]
+        [Route("DeleteClient/{id}")]
+        public bool DeleteClient(int id)
+        {
+            bool a = false;
+            var client = context.Clients.Find(id);
+
+            if (client != null)
+            {
+                a = true;
+                context.Entry(client).State = EntityState.Deleted;
+                context.SaveChangesAsync();
+            }
+            else
+            {
+                a = false;
+            }
+            return a;
+        }
